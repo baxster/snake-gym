@@ -11,7 +11,7 @@ from collections import deque
 def main(save_path, render, seed, block_size, blocks, episodes, max_t, eps_start, eps_end, eps_decay):
     env = get_env(seed, block_size, blocks)
     agent = Agent(env.observation_space.shape[0], env.action_space.n, seed)
-    agent = train_dqn(agent, env, episodes, max_t, eps_start, eps_end, eps_decay, render)
+    agent = train_dqn(agent, env, episodes, max_t, eps_start, eps_end, eps_decay, render, save_path)
     torch.save(agent.qnetwork_local.state_dict(), save_path)
 
 
@@ -21,7 +21,7 @@ def get_env(seed, block_size, blocks):
     return env
 
 
-def train_dqn(agent, env, episodes, max_t, eps_start, eps_end, eps_decay, render):
+def train_dqn(agent, env, episodes, max_t, eps_start, eps_end, eps_decay, render, save_path):
     scores = []
     apples = []
     scores_window = deque(maxlen=100)
@@ -45,13 +45,15 @@ def train_dqn(agent, env, episodes, max_t, eps_start, eps_end, eps_decay, render
         scores.append(score)               # save most recent score
         apples.append(info['apples'])
         eps = max(eps_end, eps_decay*eps)  # decrease epsilon
-        print(f'\rEpisode {i}\t'
+        strToPrint  = f'\rEpisode {i}\t'
               f'Average apples: {np.mean(apples):.2f}\t'
-              f'Average score: {np.mean(scores):.2f}', end='')
+              f'Average score: {np.mean(scores):.2f}'
+              f'Average 100 apples: {np.mean(apples[-1..-100])}'
+              f'Average 100 scores: {np.mean(scores[-1..-100])}'
+        print(strToPrint, end='')
         if i % 100 == 0:
-            print(f'\rEpisode {i}\t'
-                  f'Average apples: {np.mean(apples):.2f}\t'
-                  f'Average score: {np.mean(scores):.2f}')
+            print(strToPrint)
+            torch.save(agent.qnetwork_local.state_dict(), save_path)
     return agent
 
 
