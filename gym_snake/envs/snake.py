@@ -103,15 +103,15 @@ class Snake:
                 self.game_over = True
 
     def get_raw_state(self):
-        reward = self.rew_step
+        reward = self.rew_step * max(10 - self.cnt_apples, 1)
         self.cnt_steps += 1
         if self.apple_ate:
             self.cnt_apples += 1
             self.apple_ate = False
             reward = self.rew_apple_func(self.cnt_apples, self.rew_apple)
         elif self.game_over:
-            if self.cnt_steps < 15:
-                reward = self.rew_death2
+            if self.cnt_apples < 10:
+                reward = self.rew_death2 * (10 - self.cnt_apples)
             else:
                 reward = self.rew_death
 
