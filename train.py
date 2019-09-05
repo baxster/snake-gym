@@ -52,8 +52,8 @@ def train_dqn(agent, env, episodes, max_t, eps_start, eps_end, eps_decay, render
               f'score: {np.mean(scores):.2f}\t')
         if i > 100:
             strToPrint += (
-              f'100 apples: {np.mean(apples[-100:-1]):.2f}\t'
-              f'100 scores: {np.mean(scores[-100:-1]):.2f}')
+              f'last apples: {np.mean(apples[-100:-1]):.2f}\t'
+              f'last scores: {np.mean(scores[-100:-1]):.2f}')
         print(strToPrint, end='')
         if i % 100 == 0:
             print(strToPrint)

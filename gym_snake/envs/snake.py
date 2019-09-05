@@ -19,7 +19,7 @@ class Snake:
 
     def __init__(self, blocks, block_len, random,
                  rew_step=-0.25, rew_apple=3.5, rew_death=-10.0, rew_death2=-100.0,
-                 rew_apple_func=lambda cnt, rew: sqrt(cnt) * rew):
+                 rew_apple_func=lambda cnt, rew: sqrt(cnt) * rew* max(10 - cnt, 1)):
         self.blockw = block_len
         self.blocks = blocks
         self.random = random
