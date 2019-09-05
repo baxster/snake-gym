@@ -46,10 +46,10 @@ def train_dqn(agent, env, episodes, max_t, eps_start, eps_end, eps_decay, render
         apples.append(info['apples'])
         eps = max(eps_end, eps_decay*eps)  # decrease epsilon
         strToPrint  = (f'\rEpisode {i}\t'
-              f'Average apples: {np.mean(apples):.2f}\t'
-              f'Average score: {np.mean(scores):.2f}'
-              f'Average 100 apples: {np.mean(apples[-100:-1])}'
-              f'Average 100 scores: {np.mean(scores[-100:-1])}')
+              f'apples: {np.mean(apples):.2f}\t'
+              f'score: {np.mean(scores):.2f}\t'
+              f'100 apples: {np.mean(apples[-100:-1]):.2f}\t'
+              f'100 scores: {np.mean(scores[-100:-1]):.2f}')
         print(strToPrint, end='')
         if i % 100 == 0:
             print(strToPrint)
